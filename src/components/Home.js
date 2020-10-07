@@ -52,6 +52,15 @@ const Home = () => {
         <br />
         <button type="submit">Submit Data</button>
       </form>
+
+      {Values.name && Values.email ? (
+        <div>
+          <p>Name: {Values.name}</p>
+          <p>Email: {Values.email}</p>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
