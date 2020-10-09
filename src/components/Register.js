@@ -25,7 +25,7 @@ const styles = (theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -134,6 +134,7 @@ function Register(props) {
           </Button>
         </form>
       </Paper>
+      <br/> <br/> <br/> <br/> <br/> <br/>
     </main>
   );
 }
