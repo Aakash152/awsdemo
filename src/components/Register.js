@@ -43,6 +43,7 @@ const styles = (theme) => ({
   },
   submit: {
     marginTop: theme.spacing(3),
+   
   },
 });
 
@@ -99,7 +100,7 @@ function Register(props) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </FormControl>
-          <FormControl margin="normal" required fullWidth>
+          {/* <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="quote">Your Favorite Quote</InputLabel>
             <Input
               name="quote"
@@ -109,7 +110,7 @@ function Register(props) {
               value={quote}
               onChange={(e) => setQuote(e.target.value)}
             />
-          </FormControl>
+          </FormControl> */}
 
           <Button
             type="submit"
@@ -134,7 +135,7 @@ function Register(props) {
           </Button>
         </form>
       </Paper>
-      <br/> <br/> <br/> <br/> <br/> <br/>
+      <br/>
     </main>
   );
 }
