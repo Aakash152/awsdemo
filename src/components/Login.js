@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 const styles = (theme) => ({
   main: {
     width: "auto",
@@ -46,11 +46,17 @@ const styles = (theme) => ({
 });
 
 function Login(props) {
-  const { classes } = props;
+  let history = useHistory();
+  const { classes, LoginUser } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const HandleSubmit = (e) => {
+    e.preventDefault();
+    LoginUser();
+    history.push("/home");
+  };
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -60,10 +66,7 @@ function Login(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form
-          className={classes.form}
-          onSubmit={(e) => e.preventDefault() && false}
-        >
+        <form className={classes.form} onSubmit={HandleSubmit}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <Input
