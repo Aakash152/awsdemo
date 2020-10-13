@@ -4,6 +4,7 @@ import Register from "../components/Register";
 import Login from "../components/Login";
 import DashBoard from "../components/DashBoard";
 import ProtectedRoute from "../components/ProtectedRoute";
+import PageNotFound from "../components/PageNotFound";
 
 const Routing = () => {
   const [authenticate, Setauthenticate] = React.useState(false);
@@ -33,6 +34,7 @@ const Routing = () => {
             LogOut={LogOut}
             component={DashBoard}
           />
+          <Route component={PageNotFound}></Route>
         </Switch>
       </Router>
     </div>
