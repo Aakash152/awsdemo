@@ -43,18 +43,33 @@ const styles = (theme) => ({
   },
   submit: {
     marginTop: theme.spacing(3),
-   
   },
 });
 
 function Register(props) {
   const { classes } = props;
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [quote, setQuote] = useState("");
+  const [RegisterData, SetRegisterData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+
+  const HandleRegisterChange = (e) => {
+    SetRegisterData({
+      ...RegisterData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const RegisterSubmit = (e) => {
+    e.preventDefault();
+    console.log(RegisterData);
+  };
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -64,10 +79,7 @@ function Register(props) {
         <Typography component="h1" variant="h5">
           Register Account
         </Typography>
-        <form
-          className={classes.form}
-          onSubmit={(e) => e.preventDefault() && false}
-        >
+        <form className={classes.form} onSubmit={RegisterSubmit}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="name">Name</InputLabel>
             <Input
@@ -75,8 +87,8 @@ function Register(props) {
               name="name"
               autoComplete="off"
               autoFocus
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={RegisterData.name}
+              onChange={HandleRegisterChange}
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
@@ -85,8 +97,8 @@ function Register(props) {
               id="email"
               name="email"
               autoComplete="off"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={RegisterData.email}
+              onChange={HandleRegisterChange}
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
@@ -96,8 +108,8 @@ function Register(props) {
               type="password"
               id="password"
               autoComplete="off"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={RegisterData.password}
+              onChange={HandleRegisterChange}
             />
           </FormControl>
           {/* <FormControl margin="normal" required fullWidth>
@@ -135,7 +147,7 @@ function Register(props) {
           </Button>
         </form>
       </Paper>
-      <br/>
+      <br />
     </main>
   );
 }

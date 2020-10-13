@@ -49,11 +49,24 @@ function Login(props) {
   let history = useHistory();
   const { classes, LoginUser } = props;
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [LoginData, SetLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+
+  const HandleChange = (e) => {
+    SetLoginData({
+      ...LoginData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const HandleSubmit = (e) => {
     e.preventDefault();
+    console.log(LoginData);
     LoginUser();
     history.push("/home");
   };
@@ -74,8 +87,8 @@ function Login(props) {
               name="email"
               autoComplete="off"
               autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={LoginData.email}
+              onChange={HandleChange}
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
@@ -85,8 +98,8 @@ function Login(props) {
               type="password"
               id="password"
               autoComplete="off"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={LoginData.password}
+              onChange={HandleChange}
             />
           </FormControl>
           <Button
@@ -96,7 +109,7 @@ function Login(props) {
             color="primary"
             className={classes.submit}
           >
-            Sign in
+            Login
           </Button>
           <Button
             type="submit"
