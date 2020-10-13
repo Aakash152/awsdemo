@@ -7,6 +7,7 @@ import {
   FormControl,
   Input,
   InputLabel,
+  FormHelperText,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -46,6 +47,9 @@ const styles = (theme) => ({
   },
 });
 
+const EmailPattern = new RegExp(
+  /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+);
 function Register(props) {
   const { classes } = props;
 
@@ -54,22 +58,59 @@ function Register(props) {
     email: "",
     password: "",
   });
-
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-
+  const [RegisterErrors, SetRegisterErrors] = useState({
+    nameError: "",
+    emailError: "",
+    passwordError: "",
+  });
   const HandleRegisterChange = (e) => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case "name":
+        RegisterErrors.nameError = value.length === 0 ? "Required" : "";
+        break;
+      case "email":
+        RegisterErrors.emailError =
+          value.length === 0
+            ? "Required"
+            : EmailPattern.test(value)
+            ? ""
+            : "Please Enter Valid Email Address";
+        break;
+      case "password":
+        RegisterErrors.passwordError =
+          value.length === 0
+            ? "Required"
+            : value.length < 4 || value.length > 10
+            ? "Please Enter Password between 4 to 10 Characters"
+            : "";
+        break;
+      default:
+        break;
+    }
+
     SetRegisterData({
       ...RegisterData,
       [e.target.name]: e.target.value,
     });
+    SetRegisterErrors(RegisterErrors);
+    console.log(RegisterErrors);
   };
 
   const RegisterSubmit = (e) => {
     e.preventDefault();
     console.log(RegisterData);
   };
+
+  const DisableRegisterbtn =
+    (RegisterData.name.length &&
+      RegisterData.email.length &&
+      RegisterData.password.length) === 0 ||
+    RegisterErrors.nameError ||
+    RegisterErrors.emailError ||
+    RegisterErrors.passwordError;
+
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -90,6 +131,9 @@ function Register(props) {
               value={RegisterData.name}
               onChange={HandleRegisterChange}
             />
+            <FormHelperText style={{ color: "red", fontSize: "15px" }}>
+              {RegisterErrors.nameError}
+            </FormHelperText>
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
@@ -100,6 +144,9 @@ function Register(props) {
               value={RegisterData.email}
               onChange={HandleRegisterChange}
             />
+            <FormHelperText style={{ color: "red", fontSize: "15px" }}>
+              {RegisterErrors.emailError}
+            </FormHelperText>
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
@@ -111,6 +158,9 @@ function Register(props) {
               value={RegisterData.password}
               onChange={HandleRegisterChange}
             />
+            <FormHelperText style={{ color: "red", fontSize: "15px" }}>
+              {RegisterErrors.passwordError}
+            </FormHelperText>
           </FormControl>
           {/* <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="quote">Your Favorite Quote</InputLabel>
@@ -127,6 +177,7 @@ function Register(props) {
           <Button
             type="submit"
             fullWidth
+            disabled={DisableRegisterbtn}
             variant="contained"
             color="primary"
             className={classes.submit}
